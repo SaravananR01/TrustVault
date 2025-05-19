@@ -28,6 +28,7 @@ function Navbar() {
             <button className='p-4 bg-purple-400 rounded-lg hover:cursor-pointer font-fjalla hover:bg-purple-300 text-lg transition duration-300'>Get Started</button>
         </div>
       </div>
+      <div className="h-[6px] bg-gradient-to-r from-purple-500 via-purple-400 to-purple-500 shadow-md" />
     </div>
   )
 }
