@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
+import api from '../services/api';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -21,12 +22,24 @@ function Signup() {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+
+  const navigate = useNavigate();
+  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match!');
     } else {
       console.log('Form Submitted:', formData);
+      const response= await api.post('/signup',formData);
+
+      console.log('User created: ',JSON.stringify(response));
+
+      if (response.status===200){
+        //figure it out later
+        navigate('/login');
+      }
     }
   };
 
