@@ -39,7 +39,7 @@ function SideBar() {
             </Link>
         </div>
 
-        <div className='mt-68 hover:shadow-xl p-4 rounded-2xl bg-purple-500 hover:bg-purple-400 transition duration-300' onClick={logout}>
+        <div className='mt-65 hover:shadow-xl p-4 rounded-2xl bg-purple-500 hover:bg-purple-400 transition duration-300' onClick={logout}>
             <Link to="/">
                 <p className='align-middle'><IoLogOut className='inline-block'/>Logout</p>
             </Link>

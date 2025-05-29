@@ -2,6 +2,11 @@ import express from 'express';
 import bodyParser from "body-parser";
 import cors from 'cors';
 import mongoose from 'mongoose';
+import multer from 'multer';
+import multers3 from 'multer-s3';
+import aws from 'aws-sdk';
+import dotenv from 'dotenv/config';
+
 
 const port = 8080 || process.env.port;
 const app = express();
@@ -9,8 +14,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 
+//mongoose connection
 mongoose.connect('mongodb://localhost:27017/TrustVault');
 
+//user schema and model
 const userSchema = new mongoose.Schema({
     username: String,
     email: String,
@@ -19,6 +26,15 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("users",userSchema);
 
+// S3 bucket connection
+const s3=new aws.S3({
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: process.env.S3_BUCKET_REGION,
+});
+
+
+// Login API Endpoint
 app.post('/login',async(req,res)=>{
     try{
         console.log(req.body);
@@ -40,6 +56,8 @@ app.post('/login',async(req,res)=>{
     }
 });
 
+
+//Signup API Endpoint
 app.post('/signup',async (req,res)=>{
     try{
         console.log(req.body);
@@ -52,4 +70,33 @@ app.post('/signup',async (req,res)=>{
 
 app.listen(port,()=>{
     console.log(`Server listening on Port: ${port}`);
+});
+
+//upload function
+const upload = ()=>
+    multer({
+        storage:multers3({
+            s3:s3,
+            bucket:'trust-vault-docs',
+            metadata:(req,file,cb)=>{
+                cb(null,{fieldName:file.fieldname});
+            },
+            key:(req,file,cb)=>{
+                cb(null,"file.doc");
+            },
+        })
+    });
+
+//file upload using multer
+app.post('/file-upload',(req,res,next)=>{
+    const upload_single=upload().single('file-upload');
+    upload_single(req,res,err=>{
+        if (err){
+            return res.status(400).json({message:err.message});
+        }
+
+        console.log(req.files);
+
+        res.status(200).json({data:req.files});
+    })
 });
