@@ -6,7 +6,7 @@ import TopBar from './TopBar'
 function MainPage() {
   return (
     <div>
-        <TopBar/>
+        {/* <TopBar/> */}
         <SideBar/>
       
     </div>

@@ -1,8 +1,10 @@
 import React from 'react'
 import '../App.css';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 function Navbar() {
+  const navigate=useNavigate();
+
   return (
     <div>
       <div className='flex justify-center mt-2'>
@@ -25,7 +27,7 @@ function Navbar() {
         </div>
 
         <div className='mr-1 p-2 ml-4'>
-            <button className='p-4 bg-purple-400 rounded-lg hover:cursor-pointer font-fjalla hover:bg-purple-300 text-lg transition duration-300'>Get Started</button>
+            <button className='p-4 bg-purple-400 rounded-lg hover:cursor-pointer font-fjalla hover:bg-purple-300 text-lg transition duration-300' onClick={()=>{navigate('/signup')}}>Get Started</button>
         </div>
       </div>
       <div className="h-[6px] bg-gradient-to-r from-purple-500 via-purple-400 to-purple-500 shadow-md" />

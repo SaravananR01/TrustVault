@@ -35,6 +35,7 @@ function Login() {
         const user = response.data;
         localStorage.setItem("user", JSON.stringify(user));
         navigate('/mainpage');
+        
       }
     } catch (error) {
       if (error.response && error.response.status===401) {
