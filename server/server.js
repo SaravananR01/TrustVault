@@ -19,8 +19,25 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("users",userSchema);
 
-app.post('/login',(req,res)=>{
+app.post('/login',async(req,res)=>{
+    try{
+        console.log(req.body);
+        const user = await User.findOne({email:req.body.email});
+        if (!user){
+            return res.status(404).json({error:"User Not Found"});
+        }
 
+        // console.log(user[0].password);
+        // console.log(req.body.password);
+        if (user.password!=req.body.password){
+            return res.status(401).json({error:"Invalid Credentials"});
+        }
+        delete user.password;
+        console.log("User Found");
+        res.send(user);
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
 });
 
 app.post('/signup',async (req,res)=>{
