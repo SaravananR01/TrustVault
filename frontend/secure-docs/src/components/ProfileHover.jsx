@@ -2,7 +2,7 @@ import React from 'react'
 
 function ProfileHover() {
   return (
-    <div>
+    <div className='h-[34px] bg-black'>
       
     </div>
   )

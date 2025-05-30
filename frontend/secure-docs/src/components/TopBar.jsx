@@ -1,6 +1,6 @@
 import React from 'react'
 import { CgProfile } from "react-icons/cg";
-import ProfileHover from './ProfileHover';
+import ProfileHover from './ProfileHover.jsx';
 import { Link } from 'react-router-dom';
 
 function TopBar() {
