@@ -28,6 +28,15 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("users",userSchema);
 
+//file schema and model
+const fileSchema = new mongoose.Schema({
+    filename: String,
+    fileowner: String,
+    fileURL: String
+});
+
+const File=mongoose.model("files",fileSchema);
+
 // S3 bucket connection
 // const s3=new aws.S3({
 //     accessKeyId: process.env.S3_ACCESS_KEY,

@@ -5,10 +5,12 @@ import TopBar from './TopBar'
 
 function MainPage() {
   return (
-    <div>
+    <div className='flex'>
         {/* <TopBar/> */}
         <SideBar/>
-      
+        <div className='bg-purple-200'>
+
+        </div>
     </div>
   )
 }

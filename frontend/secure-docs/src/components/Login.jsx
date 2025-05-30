@@ -2,11 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api.js';
+import { IoEyeSharp } from "react-icons/io5";
+import { FaEyeSlash } from "react-icons/fa";
 
 function Login() {
 
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error,setError]=useState("");
 
   function handleChange(event){
@@ -66,16 +69,19 @@ function Login() {
             />
           </div>
 
-          <div>
+          <div className='relative'>
             <label className="block mb-1 text-purple-700 font-semibold">Password</label>
             <input
-              type="password"
+              type= {showPassword ? "text":"password"}
               name="password"
               className="w-full p-3 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-600 transition"
               placeholder="Enter your password"
               onChange={handleChange}
               value={password}
             />
+            <div className='absolute right-4 top-10 text-purple-600 cursor-pointer mt-1' onClick={()=>setShowPassword(!showPassword)}>
+              {showPassword ? <FaEyeSlash /> : <IoEyeSharp />}
+            </div>
           </div>
 
           <div className="text-right text-sm">
