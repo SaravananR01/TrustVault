@@ -7,7 +7,8 @@ import multers3 from 'multer-s3';
 //import aws from 'aws-sdk';
 import dotenv from 'dotenv/config';
 import {S3Client} from '@aws-sdk/client-s3';
-
+import path from 'path';
+import session from 'express-session';
 
 
 const port = 8080 || process.env.port;
@@ -15,6 +16,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
+
+app.use(session({
+    secret:process.env.SESSION_SECRET,
+    resave:false,
+    saveUninitialized:false
+}));
 
 //mongoose connection
 mongoose.connect('mongodb://localhost:27017/TrustVault');
@@ -31,7 +38,7 @@ const User = mongoose.model("users",userSchema);
 //file schema and model
 const fileSchema = new mongoose.Schema({
     filename: String,
-    fileowner: String,
+    fileowner_email: String,
     fileURL: String
 });
 
@@ -68,6 +75,8 @@ app.post('/login',async(req,res)=>{
         }
         delete user.password;
         console.log("User Found");
+        
+        req.session.user = user;
         res.send(user);
     }catch(error){
         res.status(500).json({message:error.message});
@@ -96,11 +105,16 @@ const upload = ()=>
         storage:multers3({
             s3:s3,
             bucket:'trust-vault-docs',
+            acl:'public-read',
+            serverSideEncryption:'AES256',
             metadata:function (req,file,cb){
                 cb(null,{fieldName:file.fieldname});
             },
+            contentType:multers3.AUTO_CONTENT_TYPE,
             key:function(req,file,cb){
-                cb(null,Date.now().toString());
+                const ext = path.extname(file.originalname);
+                const filename = `${Date.now().toString()}_${file.originalname}`;
+                cb(null, filename);
             },
         })
     });
@@ -110,13 +124,21 @@ const upload = ()=>
 //file upload using multer
 app.post('/file-upload',(req,res,next)=>{
     const upload_single=upload().single('file');
-    upload_single(req,res,err=>{
+    upload_single(req,res,async(err)=>{
         if (err){
             return res.status(400).json({message:err.message});
         }
 
-        console.log(req.files);
+        console.log(req.file);
+        const userEmail = req.session.user;
+        console.log(userEmail);
+        const file_body={
+            filename: req.file.originalname,
+            fileowner_email: userEmail,
+            fileURL:req.file.location
+        };
+        const file = await File.create(file_body);
 
-        res.status(200).json({data:req.files});
+        res.status(200).json({data:req.file});
     })
 });

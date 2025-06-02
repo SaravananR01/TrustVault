@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function LandingPage() {
   const navigate = useNavigate();
 
+  const isLoggedIn= localStorage.getItem('user');
+
   return (
     <div className="h-[calc(100vh-6rem)] flex items-center justify-center bg-[#f3f0ff]">
       <div className="flex flex-row items-center justify-center m-5 gap-10">
@@ -14,6 +16,7 @@ function LandingPage() {
           <p className="font-fjalla text-[30px] mt-4 mb-4">
             Your secure digital vault for encrypted document storage and seamless sharing.
           </p>
+          {!isLoggedIn ?
           <div className="flex">
             <button onClick={()=>navigate('/login')} className="p-6 bg-purple-600 text-white rounded-full hover:bg-purple-700 hover:shadow-lg font-fjalla text-2xl transition duration-300 w-fit mr-4 border-2 border-purple-600 hover:cursor-pointer">
               Login
@@ -22,6 +25,11 @@ function LandingPage() {
               Sign Up
             </button>
           </div>
+          :
+          <div className='flex'>
+            <button onClick={()=>navigate('/mainpage')}className='p-6 bg-purple-600 text-white rounded-full hover:bg-purple-700 hover:shadow-lg font-fjalla text-2xl transition duration-300 w-fit mr-4 border-2 border-purple-600 hover:cursor-pointer'>You are already Logged In! <p>Click to enter your Vault!</p></button>
+          </div>
+          }
 
           
         </div>
