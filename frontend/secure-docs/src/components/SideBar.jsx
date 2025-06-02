@@ -36,7 +36,8 @@ function SideBar() {
             const response=await api.post('/file-upload',formData,{
                 headers: {
                     'ContentType':'multipart/form-data',
-                }
+                },
+                withCredentials:true,
             });
             console.log('Upload success: ',response.data);
             alert("File Uploaded successfully");

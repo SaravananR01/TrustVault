@@ -32,7 +32,7 @@ function Login() {
   async function handleSubmit(event){
     event.preventDefault();
     try {
-      const response= await api.post('/login', { email, password });
+      const response= await api.post('/login', { email, password },{withCredentials:true});
 
       if (response.status === 200) {
         const user = response.data;

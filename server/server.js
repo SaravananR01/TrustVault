@@ -15,12 +15,18 @@ const port = 8080 || process.env.port;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(cors());
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials: true
+}));
 
 app.use(session({
     secret:process.env.SESSION_SECRET,
     resave:false,
-    saveUninitialized:false
+    saveUninitialized:false,
+    cookie:{
+        httpOnly:true
+    }
 }));
 
 //mongoose connection
@@ -77,6 +83,7 @@ app.post('/login',async(req,res)=>{
         console.log("User Found");
         
         req.session.user = user;
+        
         res.send(user);
     }catch(error){
         res.status(500).json({message:error.message});
@@ -130,7 +137,7 @@ app.post('/file-upload',(req,res,next)=>{
         }
 
         console.log(req.file);
-        const userEmail = req.session.user;
+        const userEmail = req.session.user.email;
         console.log(userEmail);
         const file_body={
             filename: req.file.originalname,
