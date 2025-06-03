@@ -10,10 +10,12 @@ import api from '../services/api.js';
 function SideBar() {
     const navigate = useNavigate();
 
-    function logout(){
+    async function logout(){
         localStorage.clear();
         console.log('User Logged Out! ');
         location.reload();
+        const response = await api.get('logout');
+        console.log(response);
     }
     const [selectedFileName,setSelectedFileName]=useState('');
     const [selectedFile,setSelectedFile]=useState(null);

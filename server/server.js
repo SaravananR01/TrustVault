@@ -25,8 +25,10 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     cookie:{
-        httpOnly:true
-    }
+        httpOnly:true,
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 60 * 24
+    },
 }));
 
 //mongoose connection
@@ -149,3 +151,25 @@ app.post('/file-upload',(req,res,next)=>{
         res.status(200).json({data:req.file});
     })
 });
+
+
+// fix this
+app.get('/get-files',async (req,res)=>{
+    const user = req.session.user;
+    console.log(user);
+    const files= await File.find({fileowner_email:user.email});
+    console.log(files);
+});
+
+app.get('/logout',(req,res)=>{
+    req.session.destroy((err)=>{
+        if (err){
+            console.log(err);
+            res.status(500).send('Error Logging Out');
+        }else{
+            res.status(200).send('User Logged Out');
+        }
+    })
+});
+
+
