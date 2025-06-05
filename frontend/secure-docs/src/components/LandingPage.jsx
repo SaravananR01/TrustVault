@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function LandingPage() {
   const navigate = useNavigate();
 
-  const isLoggedIn= localStorage.getItem('user');
+  const isLoggedIn= localStorage.getItem('token');
 
   return (
     <div className="h-[calc(100vh-6rem)] flex items-center justify-center bg-[#f3f0ff]">

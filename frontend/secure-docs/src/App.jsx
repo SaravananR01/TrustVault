@@ -14,7 +14,7 @@ import TopBar from './components/TopBar.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 
 function App() {
-  const isLoggedIn = localStorage.getItem('user');
+  const isLoggedIn = localStorage.getItem('token');
 
   return (
     <>

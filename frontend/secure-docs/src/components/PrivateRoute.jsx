@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Outlet,useNavigate } from 'react-router-dom';
 
 function PrivateRoute() {
-    const isLoggedIn=localStorage.getItem('user');
+    const isLoggedIn=localStorage.getItem('token');
     const navigate=useNavigate();
 
     useEffect(()=>{

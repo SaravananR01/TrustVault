@@ -35,8 +35,8 @@ function Login() {
       const response= await api.post('/login', { email, password },{withCredentials:true});
 
       if (response.status === 200) {
-        const user = response.data;
-        localStorage.setItem("user", JSON.stringify(user));
+        const {token} = response.data;
+        localStorage.setItem("token",token);
         navigate('/mainpage');
         
       }
