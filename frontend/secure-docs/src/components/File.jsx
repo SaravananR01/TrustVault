@@ -7,11 +7,7 @@ import axios from 'axios';
 function File(props) {
     async function handleDownload(){
         try{
-          //fix
-            const download =await axios.get(props.file.fileURL,{
-              headers:{
-                'Access-Control-Allow-Origin':true,
-            }});
+            window.open(props.file.fileURL, '_blank');
             console.log(props.file.fileURL);
         }catch(error){
             console.log(error);
@@ -24,16 +20,20 @@ function File(props) {
 
     async function handleDelete(){
         try{
-            const response = await api.delete('/delete');
+          const s3_filename=props.file.fileURL.slice(52);
+          const response = await api.delete('/delete',{
+            params: { key: s3_filename},
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
-            if (response.status===200){
-                alert("File Deleted Successfully");
-            }else{
-                alert("File Deletion Failed");
-            }
-        }catch(error){
-
+        if (response.status===200){
+            alert("File Deleted Successfully");
+        }else{
+            alert("File Deletion Failed");
         }
+    }catch(error){
+
+    }
     }
 
   return (

@@ -29,13 +29,15 @@ function MainPage() {
 
   return (
     <div className='flex'>
-        {/* <TopBar/> */}
-        <SideBar/>
-        <div className='bg-purple-200 w-full p-2'>
-          {files.map((file,index)=>(
-            <File key={index} file={file}/>
+      {/*<TopBar /> */}
+      <SideBar />
+      <div className='bg-purple-200 w-full p-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+          {files.map((file, index) => (
+            <File key={index} file={file} />
           ))}
         </div>
+      </div>
     </div>
   )
 }

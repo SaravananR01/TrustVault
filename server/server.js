@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import multer from 'multer';
 import multers3 from 'multer-s3';
 import dotenv from 'dotenv/config';
-import {S3Client} from '@aws-sdk/client-s3';
+import {S3Client,DeleteObjectCommand} from '@aws-sdk/client-s3';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
@@ -146,6 +146,22 @@ app.get('/get-files',authenticateToken,async (req,res)=>{
     const files= await File.find({fileowner_email:req.user.email});
     console.log(files);
     res.status(200).send(files);
+});
+
+app.delete('/delete-file',authenticateToken,async(req,res)=>{
+    console.log(req.body);
+    const params={
+        Bucket: 'trust-vault-docs',
+        Key: '1749134320885_Test_Doc.docx'
+    };
+
+    try {
+        await s3.send(new DeleteObjectCommand(params));
+        res.status(200).send("File deleted successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Failed to delete file");
+    }
 });
 
 // app.get('/logout',(req,res)=>{
