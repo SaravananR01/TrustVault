@@ -5,6 +5,8 @@ import api from '../services/api';
 import axios from 'axios';
 
 function File(props) {
+  const token=localStorage.getItem('token');
+
     async function handleDownload(){
         try{
             window.open(props.file.fileURL, '_blank');
@@ -21,9 +23,11 @@ function File(props) {
     async function handleDelete(){
         try{
           const s3_filename=props.file.fileURL.slice(52);
-          const response = await api.delete('/delete',{
-            params: { key: s3_filename},
+          const response = await api.delete('/delete-file',{
             headers: { Authorization: `Bearer ${token}` },
+            data:{
+              s3_filename:s3_filename
+            }
           });
 
         if (response.status===200){

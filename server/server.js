@@ -33,6 +33,7 @@ const User = mongoose.model("users",userSchema);
 
 //file schema and model
 const fileSchema = new mongoose.Schema({
+    file_id: String,
     filename: String,
     fileowner_email: String,
     fileURL: String
@@ -131,6 +132,7 @@ app.post('/file-upload',authenticateToken,(req,res,next)=>{
 
         console.log(req.file);
         const file_body={
+            file_id:req.file.location.slice(52),
             filename: req.file.originalname,
             fileowner_email: req.user.email,
             fileURL:req.file.location
@@ -149,14 +151,19 @@ app.get('/get-files',authenticateToken,async (req,res)=>{
 });
 
 app.delete('/delete-file',authenticateToken,async(req,res)=>{
-    console.log(req.body);
+    console.log("File to be deleted: ",req.body.s3_filename);
     const params={
         Bucket: 'trust-vault-docs',
-        Key: '1749134320885_Test_Doc.docx'
+        Key: req.body.s3_filename
     };
 
     try {
         await s3.send(new DeleteObjectCommand(params));
+        const response =await File.deleteOne({file_id:req.body.s3_filename});
+        if (response){
+            console.log("File Record deleted in MongoDB");
+        }
+
         res.status(200).send("File deleted successfully");
     } catch (error) {
         console.error(error);
