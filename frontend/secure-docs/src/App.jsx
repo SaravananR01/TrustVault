@@ -12,6 +12,7 @@ import Inbox from './components/Inbox.jsx'
 import Trash from './components/Trash.jsx'
 import TopBar from './components/TopBar.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
+import Footer from './components/Footer.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -32,6 +33,7 @@ function App() {
           <Route path='/trash' element={<Trash/>}/>
           </Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
 
     </>

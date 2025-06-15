@@ -1,38 +1,38 @@
-import React from 'react'
-import '../App.css';
-import {Link, useNavigate} from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <div className='flex justify-center mt-2'>
-        <div className='mr-115 p-2'>
-            <Link to="/">
-                <h3 className='text-[30px] font-fjalla'>TrustVault</h3>
-            </Link>
-        </div>
+    <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <div className="flex justify-between items-center h-16">
 
-        <div className='ml-96 mr-1 p-2'>
-            <Link to="about">
-                <p className='text-lg mt-4 font-fjalla'>About</p>
-            </Link>
-        </div>
+          <Link to="/" className="text-2xl sm:text-3xl font-fjalla text-purple-700 tracking-wide hover:text-purple-800 transition">
+            TrustVault
+          </Link>
 
-        <div className='mr-1 p-2'>
-            <Link to="/howtouse">
-                <p className='text-lg mt-4 font-fjalla'>How to Use</p>
+          <div className="hidden md:flex gap-8 items-center">
+            <Link to="/about" className="text-lg font-fjalla text-gray-700 hover:text-purple-600 transition duration-200">
+              About
             </Link>
-        </div>
-
-        <div className='mr-1 p-2 ml-4'>
-            <button className='p-4 bg-purple-400 rounded-lg hover:cursor-pointer font-fjalla hover:bg-purple-300 text-lg transition duration-300' onClick={()=>{navigate('/signup')}}>Get Started</button>
+            <Link to="/howtouse" className="text-lg font-fjalla text-gray-700 hover:text-purple-600 transition duration-200">
+              How to Use
+            </Link>
+            <button
+              onClick={() => navigate('/signup')}
+              className="ml-4 px-5 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 font-fjalla text-lg transition duration-300 shadow-sm"
+            >
+              Get Started
+            </button>
+          </div>
         </div>
       </div>
-      <div className="h-[6px] bg-gradient-to-r from-purple-500 via-purple-400 to-purple-500 shadow-md" />
-    </div>
-  )
+
+      <div className="h-[4px] bg-gradient-to-r from-purple-500 via-purple-400 to-purple-500" />
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;
