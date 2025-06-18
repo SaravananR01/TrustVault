@@ -14,7 +14,7 @@ function ProfileHover() {
         onClick={() => {
           localStorage.removeItem("user");
           localStorage.removeItem("token");
-          window.location.href = '/login';
+          window.location.href = '/';
         }}
         className="w-full text-left text-red-600 hover:text-red-800"
       >
